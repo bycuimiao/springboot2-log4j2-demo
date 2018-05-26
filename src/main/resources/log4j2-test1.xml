@@ -22,10 +22,8 @@
                      filePattern="${sys:user.home}/logs/springboot-log4j2-demo/$${date:yyyy-MM}/debug-%d{yyyy-MM-dd}-%i.log">
             <Filters>
                 <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
-                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
-                <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
-                <ThresholdFilter level="INFO" onMatch="DENY" onMismatch="NEUTRAL"/>
                 <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+                <ThresholdFilter level="INFO" onMatch="DENY" onMismatch="NEUTRAL"/>
             </Filters>
             <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
             <Policies>
@@ -33,19 +31,12 @@
                 <SizeBasedTriggeringPolicy size="100 MB"/>
             </Policies>
         </RollingFile>
-        <!--大坑记录仪：这里经过多次测试，搞清了其套路，坑爹的博客，基本都是各种扒，根本没有试是否好用-->
-        <!-- 这里的日志类似流一样的进入 RollingFileInfo ， 然后经过 ThresholdFilter 进行过滤。
-            ps:这里就是坑了，如果ThresholdFilter的顺序不一样的话，输入的结果是不一样的！！！
-                因为经过ThresholdFilter的时候，如果有匹配项，则直接打印日志了，所以需要把高等级的日志级别放在前面
-                并且，onMatch属性设置为DENY，过滤掉高等级的日志；onMismatch设置为NEUTRAL，把低等级的日志放行，
-                到我们想要的级别后，onMache设为ACCEPT，获取到日志，并onMismatch设置为DENY，丢弃低等级日志，并执行结束-->
         <RollingFile name="RollingFileInfo" fileName="${sys:user.home}/logs/springboot-log4j2-demo/info.log"
                      filePattern="${sys:user.home}/logs/springboot-log4j2-demo/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log">
             <Filters>
                 <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
-                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
-                <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
                 <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+                <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
             </Filters>
             <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
             <Policies>
@@ -57,8 +48,8 @@
         <RollingFile name="RollingFileWarn" fileName="${sys:user.home}/logs/springboot-log4j2-demo/warn.log"
                      filePattern="${sys:user.home}/logs/springboot-log4j2-demo/$${date:yyyy-MM}/warn-%d{yyyy-MM-dd}-%i.log">
             <Filters>
-                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
                 <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
             </Filters>
             <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
             <Policies>
@@ -96,7 +87,7 @@
         </root>
     </loggers>
 
-    <!-- ps: test2 这种配置的最终表现形式为 debug 日志下 ，只有debug级别的日志(debug);
-                                       info 日志下 ，只有info级别的日志(info) 以此类推 -->
+    <!-- ps: test1 这种配置的最终表现形式为 debug 日志下 ，有debug级别以上的全部日志(debug,info,warn,error);
+                                       info 日志下 ，有info级别以上的全部日志(info,warn,error) 以此类推 -->
 
 </configuration>
