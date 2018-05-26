@@ -22,6 +22,8 @@
                      filePattern="${sys:user.home}/logs/springboot-log4j2-demo/$${date:yyyy-MM}/debug-%d{yyyy-MM-dd}-%i.log">
             <Filters>
                 <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+                <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
                 <ThresholdFilter level="INFO" onMatch="DENY" onMismatch="NEUTRAL"/>
                 <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
             </Filters>
@@ -41,6 +43,7 @@
                      filePattern="${sys:user.home}/logs/springboot-log4j2-demo/$${date:yyyy-MM}/info-%d{yyyy-MM-dd}-%i.log">
             <Filters>
                 <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
                 <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
                 <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
             </Filters>
@@ -76,28 +79,6 @@
             </Policies>
         </RollingFile>
 
-        <RollingFile name="RollingFileInfoForLog1" fileName="${sys:user.home}/logs/springboot-log4j2-demo/log1-info.log"
-                     filePattern="${sys:user.home}/logs/springboot-log4j2-demo/$${date:yyyy-MM}/log1-info-%d{yyyy-MM-dd}-%i.log">
-            <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
-            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy/>
-                <SizeBasedTriggeringPolicy size="100 MB"/>
-            </Policies>
-        </RollingFile>
-
-        <RollingFile name="RollingFileInfoForLog2" fileName="${sys:user.home}/logs/springboot-log4j2-demo/log2-info.log"
-                     filePattern="${sys:user.home}/logs/springboot-log4j2-demo/$${date:yyyy-MM}/log2-info-%d{yyyy-MM-dd}-%i.log">
-            <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
-            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
-            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
-            <Policies>
-                <TimeBasedTriggeringPolicy/>
-                <SizeBasedTriggeringPolicy size="100 MB"/>
-            </Policies>
-        </RollingFile>
-
     </appenders>
     <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效-->
     <loggers>
@@ -106,14 +87,6 @@
         </logger>
         <logger name="org.mybatis" level="INFO">
         </logger>
-        <Logger name="com.bycuimiao.demo.log1" level="info" additivity="false">
-            <appender-ref ref="Console"/>
-            <appender-ref ref="RollingFileInfoForLog1"/>
-        </Logger>
-        <Logger name="com.bycuimiao.demo.log2" level="info" additivity="false">
-            <appender-ref ref="Console"/>
-            <appender-ref ref="RollingFileInfoForLog2"/>
-        </Logger>
         <root level="all">
             <appender-ref ref="Console"/>
             <appender-ref ref="RollingFileDebug"/>
@@ -123,6 +96,7 @@
         </root>
     </loggers>
 
-    <!-- ps: test3 这种配置的最终表现形式为 在test2的基础上，实现包级别的细化 -->
+    <!-- ps: test2 这种配置的最终表现形式为 debug 日志下 ，只有debug级别的日志(debug);
+                                       info 日志下 ，只有info级别的日志(info) 以此类推 -->
 
 </configuration>

@@ -1,5 +1,6 @@
 # springboot2-log4j2-demo
-springboot2+log4j2简单demo
+springboot2+log4j2简单demo,以后开发，需要用到哪种配置，或者需要集成log，直接使用demo的代码就可以了。
+而且本demo对新手友好，简单的配置不会删除。也同时保有略复杂的配置
 ##v1.0 因为springboot2的log4j2自动集成了Slf4j，所以配置起来十分方便，只需要配置log4j2就可以了。
 第一版为简单配置
 第二版配置更加全面

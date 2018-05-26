@@ -2,7 +2,7 @@
  * Created by cuimiao on 2018/5/26.
  */
 
-package com.bycuimiao.demo.com.bycuimiao.demo.log;
+package com.bycuimiao.demo.log;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
